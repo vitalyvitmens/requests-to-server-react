@@ -137,14 +137,53 @@ import styles from './app.module.css'
 // 4). json-server --watch src/db.json --port 3005
 // 5). json-server --watch src/db.json --port 3005 --delay 2500 (с задержкой подгрузки данных в 2,5 секунды)
 
+// export const App = () => {
+// 	const [products, setProducts] = useState([])
+// 	const [isLoading, setIsLoading] = useState(false)
+
+// 	useEffect(() => {
+// 		setIsLoading(true)
+
+// 		fetch('http://localhost:5967/products')
+// 			.then((loadedData) => loadedData.json())
+// 			.then((loadedProducts) => {
+// 				setProducts(loadedProducts)
+// 			})
+// 			.finally(() => {
+// 				setIsLoading(false)
+// 			})
+// 	}, [])
+
+// 	return (
+// 		<div className={styles.app}>
+// 			{isLoading ? (
+// 				// https://cssloaders.github.io/
+// 				<div className={styles.loader}></div>
+// 			) : (
+// 				products.map(({ id, name, price }) => (
+// 					<div key={id}>
+// 						{name} - {price} руб
+// 					</div>
+// 				))
+// 			)}
+// 		</div>
+// 	)
+// }
+
+//! POST
+// https://jsonplaceholder.typicode.com/
 export const App = () => {
 	const [products, setProducts] = useState([])
 	const [isLoading, setIsLoading] = useState(false)
+	const [isCreating, setIsCreating] = useState(false)
+	const [refreshProductsFlag, setRefreshProductsFlag] = useState(false)
+
+	const refreshProducts = () => setRefreshProductsFlag(!refreshProductsFlag)
 
 	useEffect(() => {
 		setIsLoading(true)
 
-		fetch('http://localhost:3005/products')
+		fetch('http://localhost:5967/products')
 			.then((loadedData) => loadedData.json())
 			.then((loadedProducts) => {
 				setProducts(loadedProducts)
@@ -152,7 +191,25 @@ export const App = () => {
 			.finally(() => {
 				setIsLoading(false)
 			})
-	}, [])
+	}, [refreshProductsFlag])
+
+	const requestAddVacuumCleaner = () => {
+		setIsCreating(true)
+		fetch('http://localhost:5967/products', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json; charset=utf-8' },
+			body: JSON.stringify({
+				name: 'Новый пылесос',
+				price: 4690,
+			}),
+		})
+			.then((rawResponse) => rawResponse.json())
+			.then((response) => {
+				console.log('Пылесос добавлен! Ответ серевера:', response)
+				refreshProducts()
+			})
+			.finally(() => setIsCreating(false))
+	}
 
 	return (
 		<div className={styles.app}>
@@ -166,6 +223,9 @@ export const App = () => {
 					</div>
 				))
 			)}
+			<button disabled={isCreating} onClick={requestAddVacuumCleaner}>
+				Добавить пылесос
+			</button>
 		</div>
 	)
 }
