@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import styles from './app.module.css'
 
+//! useEffect
 // export const App = () => {
 // 	const [products, setProducts] = useState([])
 
@@ -72,23 +73,69 @@ import styles from './app.module.css'
 // 	)
 // }
 
-const PRODUCTS_MOCK = [
-	{
-		id: '001',
-		name: 'Телевизор',
-		price: 39900,
-	},
-	{
-		id: '002',
-		name: 'Смартфон',
-		price: 18900,
-	},
-	{
-		id: '003',
-		name: 'Фен',
-		price: 1749,
-	},
-]
+//! Мок бэкенда
+// const PRODUCTS_MOCK = [
+// 	{
+// 		id: '001',
+// 		name: 'Телевизор',
+// 		price: 39900,
+// 	},
+// 	{
+// 		id: '002',
+// 		name: 'Смартфон',
+// 		price: 18900,
+// 	},
+// 	{
+// 		id: '003',
+// 		name: 'Фен',
+// 		price: 1749,
+// 	},
+// ]
+
+// export const App = () => {
+// 	const [products, setProducts] = useState([])
+// 	const [isLoading, setIsLoading] = useState(false)
+
+// 	useEffect(() => {
+// 		setIsLoading(true)
+
+// 		new Promise((resolve) => {
+// 			setTimeout(() => {
+// 				resolve({ json: () => PRODUCTS_MOCK })
+// 			}, 5000)
+// 		})
+// 			.then((loadedData) => loadedData.json())
+// 			.then((loadedProducts) => {
+// 				setProducts(loadedProducts)
+// 			})
+// 			.finally(() => {
+// 				setIsLoading(false)
+// 			})
+// 	}, [])
+
+// 	return (
+// 		<div className={styles.app}>
+// 			{isLoading ? (
+//         // https://cssloaders.github.io/
+// 				<div className={styles.loader}></div>
+// 			) : (
+// 				products.map(({ id, name, price }) => (
+// 					<div key={id}>
+// 						{name} - {price} руб
+// 					</div>
+// 				))
+// 			)}
+// 		</div>
+// 	)
+// }
+
+//! JSON Server. GET
+// https://www.npmjs.com/package/json-server
+// 1). npm install -g json-server
+// 2). Create a db.json file with some data
+// 3). cd my-app
+// 4). json-server --watch src/db.json --port 3005
+// 5). json-server --watch src/db.json --port 3005 --delay 2500 (с задержкой подгрузки данных в 2,5 секунды)
 
 export const App = () => {
 	const [products, setProducts] = useState([])
@@ -97,11 +144,7 @@ export const App = () => {
 	useEffect(() => {
 		setIsLoading(true)
 
-		new Promise((resolve) => {
-			setTimeout(() => {
-				resolve({ json: () => PRODUCTS_MOCK })
-			}, 5000)
-		})
+		fetch('http://localhost:3005/products')
 			.then((loadedData) => loadedData.json())
 			.then((loadedProducts) => {
 				setProducts(loadedProducts)
@@ -114,7 +157,7 @@ export const App = () => {
 	return (
 		<div className={styles.app}>
 			{isLoading ? (
-        // https://cssloaders.github.io/
+				// https://cssloaders.github.io/
 				<div className={styles.loader}></div>
 			) : (
 				products.map(({ id, name, price }) => (
