@@ -172,44 +172,181 @@ import styles from './app.module.css'
 
 //! POST
 // https://jsonplaceholder.typicode.com/
-export const App = () => {
-	const [products, setProducts] = useState([])
-	const [isLoading, setIsLoading] = useState(false)
-	const [isCreating, setIsCreating] = useState(false)
-	const [refreshProductsFlag, setRefreshProductsFlag] = useState(false)
+// export const App = () => {
+// 	const [products, setProducts] = useState([])
+// 	const [isLoading, setIsLoading] = useState(false)
+// 	const [isCreating, setIsCreating] = useState(false)
+// 	const [refreshProductsFlag, setRefreshProductsFlag] = useState(false)
 
+// 	const refreshProducts = () => setRefreshProductsFlag(!refreshProductsFlag)
+
+// 	useEffect(() => {
+// 		setIsLoading(true)
+
+// 		fetch('http://localhost:3005/products')
+// 			.then((loadedData) => loadedData.json())
+// 			.then((loadedProducts) => {
+// 				setProducts(loadedProducts)
+// 			})
+// 			.finally(() => {
+// 				setIsLoading(false)
+// 			})
+// 	}, [refreshProductsFlag])
+
+// 	const requestAddVacuumCleaner = () => {
+// 		setIsCreating(true)
+// 		fetch('http://localhost:3005/products', {
+// 			method: 'POST',
+// 			headers: { 'Content-Type': 'application/json; charset=utf-8' },
+// 			body: JSON.stringify({
+// 				name: 'Новый пылесос',
+// 				price: 4690,
+// 			}),
+// 		})
+// 			.then((rawResponse) => rawResponse.json())
+// 			.then((response) => {
+// 				console.log('Пылесос добавлен! Ответ сервера:', response)
+// 				refreshProducts()
+// 			})
+// 			.finally(() => setIsCreating(false))
+// 	}
+
+// 	return (
+// 		<div className={styles.app}>
+// 			{isLoading ? (
+// 				// https://cssloaders.github.io/
+// 				<div className={styles.loader}></div>
+// 			) : (
+// 				products.map(({ id, name, price }) => (
+// 					<div key={id}>
+// 						{name} - {price} руб
+// 					</div>
+// 				))
+// 			)}
+// 			<button disabled={isCreating} onClick={requestAddVacuumCleaner}>
+// 				Добавить пылесос
+// 			</button>
+// 		</div>
+// 	)
+// }
+
+//! PUT, PATCH, DELETE
+// export const App = () => {
+// 	const [products, setProducts] = useState([])
+// 	const [isLoading, setIsLoading] = useState(false)
+// 	const [isCreating, setIsCreating] = useState(false)
+// 	const [isUpdating, setIsUpdating] = useState(false)
+// 	const [isDeleting, setIsDeleting] = useState(false)
+// 	const [refreshProductsFlag, setRefreshProductsFlag] = useState(false)
+
+// 	const refreshProducts = () => setRefreshProductsFlag(!refreshProductsFlag)
+
+// 	useEffect(() => {
+// 		setIsLoading(true)
+
+// 		fetch('http://localhost:3005/products')
+// 			.then((loadedData) => loadedData.json())
+// 			.then((loadedProducts) => {
+// 				setProducts(loadedProducts)
+// 			})
+// 			.finally(() => {
+// 				setIsLoading(false)
+// 			})
+// 	}, [refreshProductsFlag])
+
+// 	const requestAddVacuumCleaner = () => {
+// 		setIsCreating(true)
+// 		fetch('http://localhost:3005/products', {
+// 			method: 'POST',
+// 			headers: { 'Content-Type': 'application/json; charset=utf-8' },
+// 			body: JSON.stringify({
+// 				name: 'Новый пылесос',
+// 				price: 4690,
+// 			}),
+// 		})
+// 			.then((rawResponse) => rawResponse.json())
+// 			.then((response) => {
+// 				console.log('Пылесос добавлен! Ответ сервера:', response)
+// 				refreshProducts()
+// 			})
+// 			.finally(() => setIsCreating(false))
+// 	}
+
+// 	const requestUpdateSmartphone = () => {
+// 		setIsUpdating(true)
+// 		fetch('http://localhost:3005/products/002', {
+// 			method: 'PUT',
+// 			headers: { 'Content-Type': 'application/json; charset=utf-8' },
+// 			body: JSON.stringify({
+// 				name: 'Смартфон',
+// 				price: 17900,
+// 			}),
+// 		})
+// 			.then((rawResponse) => rawResponse.json())
+// 			.then((response) => {
+// 				console.log('Смартфон обновлён! Ответ сервера:', response)
+// 				refreshProducts()
+// 			})
+// 			.finally(() => setIsUpdating(false))
+// 	}
+
+// 	const requestDeleteHairDryer = () => {
+// 		setIsDeleting(true)
+// 		fetch('http://localhost:3005/products/003', {
+// 			method: 'DELETE',
+// 		})
+// 			.then((rawResponse) => rawResponse.json())
+// 			.then((response) => {
+// 				console.log('Фен удалён! Ответ сервера:', response)
+// 				refreshProducts()
+// 			})
+// 			.finally(() => setIsDeleting(false))
+// 	}
+
+// 	return (
+// 		<div className={styles.app}>
+// 			{isLoading ? (
+// 				// https://cssloaders.github.io/
+// 				<div className={styles.loader}></div>
+// 			) : (
+// 				products.map(({ id, name, price }) => (
+// 					<div key={id}>
+// 						{name} - {price} руб
+// 					</div>
+// 				))
+// 			)}
+// 			<button disabled={isCreating} onClick={requestAddVacuumCleaner}>
+// 				Добавить пылесос
+// 			</button>
+// 			<button disabled={isUpdating} onClick={requestUpdateSmartphone}>
+// 				Обновить смартфон
+// 			</button>
+// 			<button disabled={isDeleting} onClick={requestDeleteHairDryer}>
+// 				Удалить фен
+// 			</button>
+// 		</div>
+// 	)
+// }
+
+//! Пользовательские хуки. Добавление товара
+import {
+	useRequestGetProducts,
+	useRequestAddVacuumCleaner,
+	useRequestUpdateSmartphone,
+	useRequestDeleteHairDryer,
+} from './hooks'
+
+export const App = () => {
+	const [refreshProductsFlag, setRefreshProductsFlag] = useState(false)
 	const refreshProducts = () => setRefreshProductsFlag(!refreshProductsFlag)
 
-	useEffect(() => {
-		setIsLoading(true)
-
-		fetch('http://localhost:5967/products')
-			.then((loadedData) => loadedData.json())
-			.then((loadedProducts) => {
-				setProducts(loadedProducts)
-			})
-			.finally(() => {
-				setIsLoading(false)
-			})
-	}, [refreshProductsFlag])
-
-	const requestAddVacuumCleaner = () => {
-		setIsCreating(true)
-		fetch('http://localhost:5967/products', {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json; charset=utf-8' },
-			body: JSON.stringify({
-				name: 'Новый пылесос',
-				price: 4690,
-			}),
-		})
-			.then((rawResponse) => rawResponse.json())
-			.then((response) => {
-				console.log('Пылесос добавлен! Ответ серевера:', response)
-				refreshProducts()
-			})
-			.finally(() => setIsCreating(false))
-	}
+	const { products, isLoading } = useRequestGetProducts(refreshProductsFlag)
+	const { isCreating, requestAddVacuumCleaner } =
+		useRequestAddVacuumCleaner(refreshProducts)
+	const { isUpdating, requestUpdateSmartphone } =
+		useRequestUpdateSmartphone(refreshProducts)
+	const { isDeleting, requestDeleteHairDryer } =
+		useRequestDeleteHairDryer(refreshProducts)
 
 	return (
 		<div className={styles.app}>
@@ -225,6 +362,12 @@ export const App = () => {
 			)}
 			<button disabled={isCreating} onClick={requestAddVacuumCleaner}>
 				Добавить пылесос
+			</button>
+			<button disabled={isUpdating} onClick={requestUpdateSmartphone}>
+				Обновить смартфон
+			</button>
+			<button disabled={isDeleting} onClick={requestDeleteHairDryer}>
+				Удалить фен
 			</button>
 		</div>
 	)
