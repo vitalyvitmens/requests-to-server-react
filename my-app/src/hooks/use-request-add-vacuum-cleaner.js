@@ -1,10 +1,14 @@
 import { useState } from 'react'
 
-export const useRequestAddVacuumCleaner = (refreshProducts) => {
+export const useRequestAddVacuumCleaner = (
+	refreshProducts,
+	setRefreshProducts
+) => {
 	const [isCreating, setIsCreating] = useState(false)
 
 	const requestAddVacuumCleaner = () => {
 		setIsCreating(true)
+
 		fetch('http://localhost:3005/products', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json; charset=utf-8' },
@@ -16,13 +20,10 @@ export const useRequestAddVacuumCleaner = (refreshProducts) => {
 			.then((rawResponse) => rawResponse.json())
 			.then((response) => {
 				console.log('Пылесос добавлен! Ответ сервера:', response)
-				refreshProducts()
+				setRefreshProducts(!refreshProducts)
 			})
 			.finally(() => setIsCreating(false))
 	}
 
-	return {
-		isCreating,
-		requestAddVacuumCleaner,
-	}
+	return { requestAddVacuumCleaner, isCreating }
 }

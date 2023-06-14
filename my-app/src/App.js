@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import styles from './app.module.css'
 
 //! useEffect
@@ -335,31 +335,30 @@ import {
 	useRequestUpdateSmartphone,
 	useRequestDeleteHairDryer,
 } from './hooks'
+import { ProductList, Loader } from './components'
 
 export const App = () => {
-	const [refreshProductsFlag, setRefreshProductsFlag] = useState(false)
-	const refreshProducts = () => setRefreshProductsFlag(!refreshProductsFlag)
+	const [refreshProducts, setRefreshProducts] = useState(false)
+	const { isLoading } = useRequestGetProducts(refreshProducts)
 
-	const { products, isLoading } = useRequestGetProducts(refreshProductsFlag)
-	const { isCreating, requestAddVacuumCleaner } =
-		useRequestAddVacuumCleaner(refreshProducts)
-	const { isUpdating, requestUpdateSmartphone } =
-		useRequestUpdateSmartphone(refreshProducts)
-	const { isDeleting, requestDeleteHairDryer } =
-		useRequestDeleteHairDryer(refreshProducts)
+	const { requestAddVacuumCleaner, isCreating } = useRequestAddVacuumCleaner(
+		refreshProducts,
+		setRefreshProducts
+	)
+
+	const { requestUpdateSmartphone, isUpdating } = useRequestUpdateSmartphone(
+		refreshProducts,
+		setRefreshProducts
+	)
+
+	const { requestDeleteHairDryer, isDeleting } = useRequestDeleteHairDryer(
+		refreshProducts,
+		setRefreshProducts
+	)
 
 	return (
 		<div className={styles.app}>
-			{isLoading ? (
-				// https://cssloaders.github.io/
-				<div className={styles.loader}></div>
-			) : (
-				products.map(({ id, name, price }) => (
-					<div key={id}>
-						{name} - {price} руб
-					</div>
-				))
-			)}
+			{isLoading ? <Loader /> : <ProductList />}
 			<button disabled={isCreating} onClick={requestAddVacuumCleaner}>
 				Добавить пылесос
 			</button>
