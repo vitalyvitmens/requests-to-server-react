@@ -20,7 +20,7 @@
 // 	return { products, isLoading }
 // }
 
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { ref, onValue } from 'firebase/database'
 import { db } from '../firebase'
 
