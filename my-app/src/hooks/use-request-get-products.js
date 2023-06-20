@@ -33,6 +33,7 @@ export const useRequestGetProducts = () => {
 
 		return onValue(productsDbRef, (snapshot) => {
 			const loadedProducts = snapshot.val() || []
+			console.log(loadedProducts)
 
 			setProducts(loadedProducts)
 			setIsLoading(false)
